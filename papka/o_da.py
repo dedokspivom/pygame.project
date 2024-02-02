@@ -89,8 +89,8 @@ monster3 = Enemy('wolf.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7
 monster4 = Enemy('wolf.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
 monster5 = Enemy('wolf.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
 
-asteroid1 = Asteroid('lion.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-asteroid2 = Asteroid('lion.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
+asteroid1 = Asteroid('jordan3.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
+asteroid2 = Asteroid('jordan3.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
 
 monsters = sprite.Group()
 monsters.add(monster1)
@@ -177,7 +177,7 @@ while game:
             monsters.add(monster)
 
         for c in collides3:
-            asteroid = Asteroid('lion.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 7))
+            asteroid = Asteroid('jordan3.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 7))
             asteroid.add(asteroids)
 
         if sprite.spritecollide(player, monsters, False) or sprite.spritecollide(player, asteroids, False):
