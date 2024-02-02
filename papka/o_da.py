@@ -43,7 +43,7 @@ class Player(GameSprite):
         bulletz.add(bullet)
 
 
-ghj = False
+bullet_flag = False
 
 
 class Enemy(GameSprite):
@@ -103,7 +103,7 @@ asteroids = sprite.Group()
 asteroids.add(asteroid1)
 asteroids.add(asteroid2)
 
-img_bullet = "mama1.png"
+img_bullet = "laser2.png"
 
 bulletz = sprite.Group()
 
@@ -130,12 +130,12 @@ while game:
             game = False
         if e.type == pygame.KEYDOWN:
             if e.key == pygame.K_SPACE:
-                if num_bullets >= 0 and ghj is False:
+                if num_bullets >= 0 and bullet_flag is False:
                     pygame.fire_sound.play()
                     player.fire()
                     num_bullets = num_bullets - 1
-                if num_bullets <= 0 and ghj is False:
-                    ghj = True
+                if num_bullets <= 0 and bullet_flag is False:
+                    bullet_flag = True
                     last_time = timer()
 
     if not finish:
@@ -157,14 +157,14 @@ while game:
         collides3 = sprite.spritecollide(player, asteroids, False)
         text_life = font1.render(str(life), 1, (0, 150, 0))
 
-        if ghj:
+        if bullet_flag:
             now_time = timer()
             if now_time - last_time < 1:
                 reload = font2.render('Lox', 1, (150, 0, 0))
                 window.blit(reload, (260, 460))
             else:
                 num_bullets = 5
-                ghj = False
+                bullet_flag = False
 
         for c in collides:
             monster = Enemy('wolf.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 6))
