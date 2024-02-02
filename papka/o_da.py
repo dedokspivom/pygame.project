@@ -130,11 +130,11 @@ while game:
             game = False
         if e.type == pygame.KEYDOWN:
             if e.key == pygame.K_SPACE:
-                if num_bullets >= 0 and ghj == False:
+                if num_bullets >= 0 and ghj is False:
                     pygame.fire_sound.play()
                     player.fire()
                     num_bullets = num_bullets - 1
-                if num_bullets <= 0 and ghj == False:
+                if num_bullets <= 0 and ghj is False:
                     ghj = True
                     last_time = timer()
 
