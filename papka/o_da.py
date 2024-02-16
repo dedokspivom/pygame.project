@@ -71,9 +71,11 @@ class Asteroid(GameSprite):
 
 def draw_start_menu():
     screen.fill((0, 0, 0))
-    font = pygame.font.SysFont('arial', 40)
-    title = font.render('арина придумает нам нзавание', True, (255, 255, 255))
-    start_button = font.render('Press any button to start', True, (255, 255, 255))
+    font = pygame.font.Font('combine-17_0.ttf', 75)
+    font1 = pygame.font.SysFont('arial', 17)
+
+    title = font.render('GALAXY WARS THE GREATEST BRAWL', True, (255, 255, 255))
+    start_button = font1.render('Press any button to start', True, (255, 255, 255))
     screen.blit(title, (win_width / 2 - title.get_width() / 2, win_height / 2 - title.get_height() / 2))
     screen.blit(start_button,
                 (win_width / 2 - start_button.get_width() / 2, win_height / 2 + start_button.get_height() / 2))
