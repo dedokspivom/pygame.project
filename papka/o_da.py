@@ -49,12 +49,14 @@ bullet_flag = False
 class Enemy(GameSprite):
     def update(self):
         global lost
+        global text_lose
         if self.rect.y <= win_height:
             self.rect.y += self.speed
         else:
             self.rect.y = 0
             self.rect.x = randint(80, win_width - 80)
             lost = lost + 1
+            text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
 
 
 class Asteroid(GameSprite):
@@ -88,7 +90,8 @@ game = False
 
 font.init()
 font1 = font.Font(None, 50)
-font2 = font.Font(None, 50)
+font2 = font.Font(None, 24)
+font3 = font.Font(None, 70)
 win = font1.render("You win!", True, (255, 255, 255))
 lose = font1.render("You lose!", True, (180, 0, 0))
 
@@ -132,6 +135,9 @@ FPS = 600
 finish = False
 start_game = True
 
+text_life = font1.render(f'HP {str(life)}', 1, (0, 150, 0))
+text_babylya = font1.render("Счёт:" + str(score), 1, (255, 255, 255))
+text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
 pygame.mixer.init()
 pygame.mixer.music.load('gimn-rossiyskoy-federatsii-so-slovami-natsionalnyiy-2556.ogg')
 pygame.mixer.music.play()
@@ -161,8 +167,6 @@ while game:
                     last_time = timer()
 
     if not finish:
-        text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
-        text_babylya = font2.render("Счёт:" + str(score), 1, (255, 255, 255))
 
         window.blit(background, (0, 0))
         player.reset()
@@ -177,13 +181,13 @@ while game:
         collides = sprite.groupcollide(monsters, bulletz, True, True)
         collides2 = sprite.spritecollide(player, monsters, False)
         collides3 = sprite.spritecollide(player, asteroids, False)
-        text_life = font1.render(str(life), 1, (0, 150, 0))
+
 
         if bullet_flag:
             now_time = timer()
             if now_time - last_time < 1:
-                reload = font2.render('Lox', 1, (150, 0, 0))
-                window.blit(reload, (260, 460))
+                reload = font3.render('Перезарядка', 1, (150, 0, 0))
+                window.blit(reload, (200, 440))
             else:
                 num_bullets = 5
                 bullet_flag = False
@@ -192,7 +196,7 @@ while game:
             monster = Enemy('who2.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 6))
             monsters.add(monster)
             score += 1
-            text_babylya = font2.render("Счёт:" + str(score), 1, (255, 255, 255))
+            text_babylya = font1.render("Счёт:" + str(score), 1, (255, 255, 255))
 
         for c in collides2:
             monster = Enemy('who2.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 7))
@@ -206,7 +210,7 @@ while game:
             sprite.spritecollide(player, monsters, True)
             sprite.spritecollide(player, asteroids, True)
             life = life - 1
-            text_life = font1.render(str(life), 1, (0, 150, 0))
+            text_life = font1.render(f'HP {str(life)}', 1, (0, 150, 0))
 
         if life == 0 or lost >= max_lost:
             text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
@@ -219,7 +223,7 @@ while game:
 
         window.blit(text_lose, (10, 50))
         window.blit(text_babylya, (10, 20))
-        window.blit(text_life, (650, 10))
+        window.blit(text_life, (600, 10))
 
         display.update()
         clock.tick(FPS)
