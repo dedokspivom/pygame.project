@@ -82,6 +82,23 @@ def draw_start_menu():
     pygame.display.update()
 
 
+def draw_settings():
+    screen.fill((0, 0, 0))
+    font1 = pygame.font.SysFont('arial', 24)
+    speed_button = font1.render(f"Choose enemies` speed: {difficulty['speed']}", True, (255, 255, 255))
+    speed_increment = font1.render("+", True, (255, 255, 255))
+    frequency_increment = font1.render("+", True, (255, 255, 255))
+    frequency_button = font1.render(f"Choose enemies` frequency: {difficulty['frequency']}", True, (255, 255, 255))
+    screen.blit(speed_button, (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height() / 2))
+    screen.blit(frequency_button,
+                (win_width / 2 - frequency_button.get_width() / 2, win_height / 2 + frequency_button.get_height() / 2))
+    screen.blit(speed_increment,
+                (win_width / 2 - speed_increment.get_width() / 2, win_height / 2 - speed_increment.get_height() / 2))
+    screen.blit(frequency_button,
+                (win_width / 2 - frequency_increment.get_width() / 2, win_height / 2 + frequency_increment.get_height() / 2))
+    pygame.display.update()
+
+
 win_height = 500
 win_width = 700
 window = display.set_mode((win_width, win_height))
@@ -124,6 +141,11 @@ img_bullet = "laser2.png"
 
 bulletz = sprite.Group()
 
+difficulty = {
+    "speed": 1,
+    "frequency": 1,
+}
+
 lost = 0
 score = 0
 goal = 10
@@ -136,6 +158,7 @@ FPS = 600
 
 finish = False
 start_game = True
+game_state = "start_screen"
 
 text_life = font1.render(f'HP {str(life)}', 1, (0, 150, 0))
 text_babylya = font1.render("Счёт:" + str(score), 1, (255, 255, 255))
@@ -149,15 +172,18 @@ while start_game:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             start_game = False
-        if e.type == pygame.KEYDOWN:
-            if e.key == pygame.K_SPACE:
-                start_game = False
-                game = True
-            if e.key == pygame.K_c:
-                print("c")
-            if e.key == pygame.K_s:
-                print("s")
-    draw_start_menu()
+        if game_state == "start_screen":
+            draw_start_menu()
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_SPACE:
+                    start_game = False
+                    game = True
+                if e.key == pygame.K_c:
+                    print("c")
+                if e.key == pygame.K_s:
+                    draw_settings()
+                    game_state = "settings"
+
 
 while game:
     for e in pygame.event.get():
