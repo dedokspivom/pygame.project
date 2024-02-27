@@ -82,6 +82,18 @@ def draw_start_menu():
     pygame.display.update()
 
 
+def jeison():
+    global background
+    global a
+    b = randint(1, 4)
+    if b != a:
+        background = transform.scale(image.load(f"jei{b}.jfif"), (700, 500))
+    a = b
+    pygame.display.update()
+    window.blit(background, (0, 0))
+
+
+a = 0
 win_height = 500
 win_width = 700
 window = display.set_mode((win_width, win_height))
@@ -98,6 +110,7 @@ win = font1.render("You win!", True, (255, 255, 255))
 lose = font1.render("You lose!", True, (180, 0, 0))
 
 num_bullets = 5
+level = 0
 
 player = Player('ship2.png', 25, win_height - 100, 80, 100, 10)
 monster1 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
@@ -145,14 +158,34 @@ pygame.mixer.music.load('gimn-rossiyskoy-federatsii-so-slovami-natsionalnyiy-255
 pygame.mixer.music.play()
 pygame.fire_sound = pygame.mixer.Sound("shoot.ogg")
 
+jeisik = False
+
 while start_game:
+    draw_start_menu()
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             start_game = False
         if e.type == pygame.KEYDOWN:
-            start_game = False
-            game = True
-    draw_start_menu()
+            if e.key == pygame.K_SPACE:
+                start_game = False
+                game = True
+            if e.key == pygame.K_c:
+                start_game = False
+                jeison()
+                jeisik = True
+                pygame.display.update()
+while jeisik:
+    for e in pygame.event.get():
+        if e.type == pygame.KEYDOWN:
+            if e.key == pygame.K_c:
+                jeison()
+            if e.key == pygame.K_BACKSPACE:
+                jeisik = False
+                start_game = True
+                background = transform.scale(image.load("space.png"), (700, 500))
+                draw_start_menu()
+        if e.type == pygame.QUIT:
+            jeisik = False
 
 while game:
     for e in pygame.event.get():
@@ -183,7 +216,6 @@ while game:
         collides = sprite.groupcollide(monsters, bulletz, True, True)
         collides2 = sprite.spritecollide(player, monsters, False)
         collides3 = sprite.spritecollide(player, asteroids, False)
-
 
         if bullet_flag:
             now_time = timer()
