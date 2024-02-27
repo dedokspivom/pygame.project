@@ -75,7 +75,7 @@ def draw_start_menu():
     font1 = pygame.font.SysFont('arial', 17)
 
     title = font.render('GALAXY WARS THE GREATEST BRAWL', True, (255, 255, 255))
-    start_button = font1.render('Press any button to start', True, (255, 255, 255))
+    start_button = font1.render('Press space button to start', True, (255, 255, 255))
     screen.blit(title, (win_width / 2 - title.get_width() / 2, win_height / 2 - title.get_height() / 2))
     screen.blit(start_button,
                 (win_width / 2 - start_button.get_width() / 2, win_height / 2 + start_button.get_height() / 2))
@@ -150,8 +150,13 @@ while start_game:
         if e.type == pygame.QUIT:
             start_game = False
         if e.type == pygame.KEYDOWN:
-            start_game = False
-            game = True
+            if e.key == pygame.K_SPACE:
+                start_game = False
+                game = True
+            if e.key == pygame.K_c:
+                print("c")
+            if e.key == pygame.K_s:
+                print("s")
     draw_start_menu()
 
 while game:
@@ -183,7 +188,6 @@ while game:
         collides = sprite.groupcollide(monsters, bulletz, True, True)
         collides2 = sprite.spritecollide(player, monsters, False)
         collides3 = sprite.spritecollide(player, asteroids, False)
-
 
         if bullet_flag:
             now_time = timer()
