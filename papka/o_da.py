@@ -82,7 +82,11 @@ def draw_start_menu():
     pygame.display.update()
 
 
+increment_width = 15
+
+
 def draw_settings():
+    global increment_width
     screen.fill((0, 0, 0))
     font1 = pygame.font.SysFont('arial', 24)
     font2 = pygame.font.SysFont('arial', 36)
@@ -90,6 +94,7 @@ def draw_settings():
     speed_increment = font2.render("+", True, (255, 255, 255))
     frequency_increment = font2.render("+", True, (255, 255, 255))
     frequency_button = font1.render(f"Choose enemies` frequency: {difficulty['frequency']}", True, (255, 255, 255))
+    increment_width = frequency_increment.get_width()
     screen.blit(speed_button, (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height() / 2))
     screen.blit(frequency_button,
                 (win_width / 2 - frequency_button.get_width() / 2, win_height / 2 + frequency_button.get_height() / 2))
@@ -184,8 +189,14 @@ while start_game:
                 if e.key == pygame.K_s:
                     draw_settings()
                     game_state = "settings"
-
-
+        if game_state == "settings":
+            if e.type == pygame.QUIT:
+                start_game = False
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                if 495 <= pygame.mouse.get_pos()[0] <= 515 and 235 <= pygame.mouse.get_pos()[1] <= 260:
+                    difficulty["speed"] *= 1.2
+                if 515 <= pygame.mouse.get_pos()[0] <= 535 and 265 <= pygame.mouse.get_pos()[1] <= 290:
+                    difficulty["frequency"] *= 1.2
 while game:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
