@@ -6,11 +6,17 @@ import pygame
 from pygame import sprite, display, transform, image, font
 
 
+difficulty = {
+    "speed": 1,
+    "frequency": 1,
+}
+
+
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
         super().__init__()
         self.image = transform.scale(image.load(player_image), (size_x, size_y))
-        self.speed = player_speed
+        self.speed = player_speed * difficulty["speed"]
         self.rect = self.image.get_rect()
         self.rect.x = player_x
         self.rect.y = player_y
@@ -82,19 +88,15 @@ def draw_start_menu():
     pygame.display.update()
 
 
-increment_width = 15
-
-
 def draw_settings():
-    global increment_width
     screen.fill((0, 0, 0))
     font1 = pygame.font.SysFont('arial', 24)
     font2 = pygame.font.SysFont('arial', 36)
+    back_button = font1.render("Back to start screen", True, (255, 255, 255))
     speed_button = font1.render(f"Choose enemies` speed: {difficulty['speed']}", True, (255, 255, 255))
     speed_increment = font2.render("+", True, (255, 255, 255))
     frequency_increment = font2.render("+", True, (255, 255, 255))
     frequency_button = font1.render(f"Choose enemies` frequency: {difficulty['frequency']}", True, (255, 255, 255))
-    increment_width = frequency_increment.get_width()
     screen.blit(speed_button, (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height() / 2))
     screen.blit(frequency_button,
                 (win_width / 2 - frequency_button.get_width() / 2, win_height / 2 + frequency_button.get_height() / 2))
@@ -102,6 +104,7 @@ def draw_settings():
                 (win_width / 2 - speed_increment.get_width() / 2 + 155, win_height / 2 - speed_increment.get_height() / 2))
     screen.blit(frequency_increment,
                 (win_width / 2 - frequency_increment.get_width() / 2 + 175, win_height / 2 + frequency_increment.get_height() / 2 - 12))
+    screen.blit(back_button, (250, 290))
     pygame.display.update()
 
 
@@ -147,11 +150,6 @@ img_bullet = "laser2.png"
 
 bulletz = sprite.Group()
 
-difficulty = {
-    "speed": 1,
-    "frequency": 1,
-}
-
 lost = 0
 score = 0
 goal = 10
@@ -193,6 +191,7 @@ while start_game:
             if e.type == pygame.QUIT:
                 start_game = False
             if e.type == pygame.MOUSEBUTTONDOWN:
+                print(pygame.mouse.get_pos())
                 if 495 <= pygame.mouse.get_pos()[0] <= 515 and 235 <= pygame.mouse.get_pos()[1] <= 260:
                     difficulty["speed"] *= 1.2
                 if 515 <= pygame.mouse.get_pos()[0] <= 535 and 265 <= pygame.mouse.get_pos()[1] <= 290:
@@ -253,7 +252,7 @@ while game:
         if sprite.spritecollide(player, monsters, False) or sprite.spritecollide(player, asteroids, False):
             sprite.spritecollide(player, monsters, True)
             sprite.spritecollide(player, asteroids, True)
-            life = life - 1
+            life -= 1
             text_life = font1.render(f'HP {str(life)}', 1, (0, 150, 0))
 
         if life == 0 or lost >= max_lost:
