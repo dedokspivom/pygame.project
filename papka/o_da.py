@@ -85,17 +85,18 @@ def draw_start_menu():
 def draw_settings():
     screen.fill((0, 0, 0))
     font1 = pygame.font.SysFont('arial', 24)
+    font2 = pygame.font.SysFont('arial', 36)
     speed_button = font1.render(f"Choose enemies` speed: {difficulty['speed']}", True, (255, 255, 255))
-    speed_increment = font1.render("+", True, (255, 255, 255))
-    frequency_increment = font1.render("+", True, (255, 255, 255))
+    speed_increment = font2.render("+", True, (255, 255, 255))
+    frequency_increment = font2.render("+", True, (255, 255, 255))
     frequency_button = font1.render(f"Choose enemies` frequency: {difficulty['frequency']}", True, (255, 255, 255))
     screen.blit(speed_button, (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height() / 2))
     screen.blit(frequency_button,
                 (win_width / 2 - frequency_button.get_width() / 2, win_height / 2 + frequency_button.get_height() / 2))
     screen.blit(speed_increment,
-                (win_width / 2 - speed_increment.get_width() / 2, win_height / 2 - speed_increment.get_height() / 2))
-    screen.blit(frequency_button,
-                (win_width / 2 - frequency_increment.get_width() / 2, win_height / 2 + frequency_increment.get_height() / 2))
+                (win_width / 2 - speed_increment.get_width() / 2 + 155, win_height / 2 - speed_increment.get_height() / 2))
+    screen.blit(frequency_increment,
+                (win_width / 2 - frequency_increment.get_width() / 2 + 175, win_height / 2 + frequency_increment.get_height() / 2 - 12))
     pygame.display.update()
 
 
