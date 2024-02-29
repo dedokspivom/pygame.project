@@ -1,10 +1,8 @@
-import time
 from random import randint
 from time import time as timer
 
 import pygame
 from pygame import sprite, display, transform, image, font
-
 
 difficulty = {
     "speed": 1,
@@ -88,6 +86,14 @@ def draw_start_menu():
     pygame.display.update()
 
 
+def jeis():
+    global background
+    background = transform.scale(image.load(f"jei{randint(1, 5)}.jpg"), (700, 500))
+    window.blit(background, (0, 0))
+    pygame.display.update()
+    display.update()
+
+
 def draw_settings():
     screen.fill((0, 0, 0))
     font1 = pygame.font.SysFont('arial', 24)
@@ -97,14 +103,49 @@ def draw_settings():
     speed_increment = font2.render("+", True, (255, 255, 255))
     frequency_increment = font2.render("+", True, (255, 255, 255))
     frequency_button = font1.render(f"Choose enemies` frequency: {difficulty['frequency']}", True, (255, 255, 255))
-    screen.blit(speed_button, (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height() / 2))
+    screen.blit(speed_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height() / 2))
     screen.blit(frequency_button,
                 (win_width / 2 - frequency_button.get_width() / 2, win_height / 2 + frequency_button.get_height() / 2))
     screen.blit(speed_increment,
-                (win_width / 2 - speed_increment.get_width() / 2 + 155, win_height / 2 - speed_increment.get_height() / 2))
+                (win_width / 2 - speed_increment.get_width() / 2 + 155,
+                 win_height / 2 - speed_increment.get_height() / 2))
     screen.blit(frequency_increment,
-                (win_width / 2 - frequency_increment.get_width() / 2 + 175, win_height / 2 + frequency_increment.get_height() / 2 - 12))
+                (win_width / 2 - frequency_increment.get_width() / 2 + 175,
+                 win_height / 2 + frequency_increment.get_height() / 2 - 12))
     screen.blit(back_button, (250, 290))
+    pygame.display.update()
+
+
+def speeds():
+    global text
+    global s
+    screen.fill((0, 0, 0))
+    font1 = pygame.font.SysFont('arial', 24)
+    font2 = pygame.font.SysFont('arial', 36)
+    s = ''.join([i for i in text if i.isdigit()])
+    gg = font2.render(f'{s}', 1, (0, 150, 0))
+    speed_button = font1.render(f"Choose enemies` speed: type int.", True, (255, 255, 255))
+    screen.blit(speed_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 4 - speed_button.get_height()))
+    screen.blit(gg,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height()))
+    pygame.display.update()
+
+
+def freee():
+    global txt
+    global freq
+    screen.fill((0, 0, 0))
+    font1 = pygame.font.SysFont('arial', 24)
+    font2 = pygame.font.SysFont('arial', 36)
+    freq = ''.join([i for i in txt if i.isdigit()])
+    gg = font2.render(f'{c}', 1, (150, 0, 0))
+    speed_button = font1.render(f"Choose enemies` frequency: type int.", True, (255, 255, 255))
+    screen.blit(speed_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 4 - speed_button.get_height()))
+    screen.blit(gg,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height()))
     pygame.display.update()
 
 
@@ -122,29 +163,14 @@ font2 = font.Font(None, 24)
 font3 = font.Font(None, 70)
 win = font1.render("You win!", True, (255, 255, 255))
 lose = font1.render("You lose!", True, (180, 0, 0))
+s = 5
+freq = 5
 
 num_bullets = 5
 
-player = Player('ship2.png', 25, win_height - 100, 80, 100, 10)
-monster1 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-monster2 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-monster3 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-monster4 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-monster5 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-
-asteroid1 = Asteroid('img_1.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-asteroid2 = Asteroid('img_1.png', randint(0, win_width - 80), 0, 80, 50, randint(2, 7))
-
-monsters = sprite.Group()
-monsters.add(monster1)
-monsters.add(monster2)
-monsters.add(monster3)
-monsters.add(monster4)
-monsters.add(monster5)
-
-asteroids = sprite.Group()
-asteroids.add(asteroid1)
-asteroids.add(asteroid2)
+speed = 6
+clock = pygame.time.Clock()
+FPS = 600
 
 img_bullet = "laser2.png"
 
@@ -156,9 +182,8 @@ goal = 10
 max_lost = 10
 life = 6
 
-speed = 5
-clock = pygame.time.Clock()
-FPS = 600
+text = ''
+txt = ''
 
 finish = False
 start_game = True
@@ -168,14 +193,20 @@ text_life = font1.render(f'HP {str(life)}', 1, (0, 150, 0))
 text_babylya = font1.render("Счёт:" + str(score), 1, (255, 255, 255))
 text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
 pygame.mixer.init()
-pygame.mixer.music.load('gimn-rossiyskoy-federatsii-so-slovami-natsionalnyiy-2556.ogg')
-pygame.mixer.music.play()
+# pygame.mixer.music.load('gimn-rossiyskoy-federatsii-so-slovami-natsionalnyiy-2556.ogg')
+# pygame.mixer.music.play()
 pygame.fire_sound = pygame.mixer.Sound("shoot.ogg")
 
 while start_game:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             start_game = False
+        if game_state == "jeisssss":
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_c:
+                    jeis()
+                if e.key == pygame.K_BACKSPACE:
+                    game_state = "start_screen"
         if game_state == "start_screen":
             draw_start_menu()
             if e.type == pygame.KEYDOWN:
@@ -183,19 +214,60 @@ while start_game:
                     start_game = False
                     game = True
                 if e.key == pygame.K_c:
-                    print("c")
+                    game_state = "jeisssss"
+                    jeis()
                 if e.key == pygame.K_s:
                     draw_settings()
                     game_state = "settings"
         if game_state == "settings":
+            draw_settings()
             if e.type == pygame.QUIT:
                 start_game = False
-            if e.type == pygame.MOUSEBUTTONDOWN:
-                print(pygame.mouse.get_pos())
-                if 495 <= pygame.mouse.get_pos()[0] <= 515 and 235 <= pygame.mouse.get_pos()[1] <= 260:
-                    difficulty["speed"] *= 1.2
-                if 515 <= pygame.mouse.get_pos()[0] <= 535 and 265 <= pygame.mouse.get_pos()[1] <= 290:
-                    difficulty["frequency"] *= 1.2
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_BACKSPACE:
+                    game_state = "start_screen"
+                if e.key == pygame.K_k:
+                    game_state = "speed_screen"
+                if e.key == pygame.K_f:
+                    game_state = "freq_screen"
+        if game_state == "speed_screen":
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RETURN:
+                    game_state = "settings"
+            if e.type == pygame.TEXTINPUT:
+                text += e.text
+                speeds()
+                print(text)
+        if game_state == "freq_screen":
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RETURN:
+                    game_state = "settings"
+            if e.type == pygame.TEXTINPUT:
+                txt += e.text
+                freee()
+                print(text)
+
+player = Player('ship2.png', 25, win_height - 100, 80, 100, 10)
+monster1 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, (speed + int(s) + 5) / 2 - randint(2, 5))
+monster2 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, (speed + int(s) + 5) / 2 - randint(2, 5))
+monster3 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, (speed + int(s) + 5) / 2 - randint(2, 5))
+monster4 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, (speed + int(s) + 5) / 2 - randint(2, 5))
+monster5 = Enemy('who2.png', randint(0, win_width - 80), 0, 80, 50, (speed + int(s) + 5) / 2 - randint(2, 5))
+
+asteroid1 = Asteroid('img_1.png', randint(0, win_width - 80), 0, 80, 50, (speed + int(s) + 5) / 2 - randint(1, 3))
+asteroid2 = Asteroid('img_1.png', randint(0, win_width - 80), 0, 80, 50, (speed + int(s) + 5) / 2 - randint(2, 5))
+
+monsters = sprite.Group()
+monsters.add(monster1)
+monsters.add(monster2)
+monsters.add(monster3)
+monsters.add(monster4)
+monsters.add(monster5)
+
+asteroids = sprite.Group()
+asteroids.add(asteroid1)
+asteroids.add(asteroid2)
+background = transform.scale(image.load("space.png"), (700, 500))
 while game:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
@@ -211,7 +283,6 @@ while game:
                     last_time = timer()
 
     if not finish:
-
         window.blit(background, (0, 0))
         player.reset()
         player.update()
@@ -236,17 +307,20 @@ while game:
                 bullet_flag = False
 
         for c in collides:
-            monster = Enemy('who2.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 6))
+            monster = Enemy('who2.png', randint(80, win_width - 80), -40, 80, 50,
+                            (speed + int(s) + 5) / 2 - randint(2, 5))
             monsters.add(monster)
             score += 1
             text_babylya = font1.render("Счёт:" + str(score), 1, (255, 255, 255))
 
         for c in collides2:
-            monster = Enemy('who2.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 7))
+            monster = Enemy('who2.png', randint(80, win_width - 80), -40, 80, 50,
+                            (speed + int(s) + 5) / 2 - randint(2, 5))
             monsters.add(monster)
 
         for c in collides3:
-            asteroid = Asteroid('img_1.png', randint(80, win_width - 80), -40, 80, 50, randint(2, 7))
+            asteroid = Asteroid('img_1.png', randint(80, win_width - 80), -40, 80, 50,
+                                (speed + int(s) + 5) / 2 - randint(2, 5))
             asteroid.add(asteroids)
 
         if sprite.spritecollide(player, monsters, False) or sprite.spritecollide(player, asteroids, False):
