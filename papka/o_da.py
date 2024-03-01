@@ -476,6 +476,7 @@ while start_game:
                     window.blit(text_babylya, (10, 20))
                     window.blit(text_life, (600 - (len(str(life)) - 1) * 15, 10))
 
+
                     if life == 0 or lost >= max_lost:
                         text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
                         window.blit(lose, (200, 200))
