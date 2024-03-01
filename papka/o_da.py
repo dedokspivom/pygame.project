@@ -79,10 +79,16 @@ def draw_start_menu():
     font1 = pygame.font.SysFont('arial', 17)
 
     title = font.render('GALAXY WARS THE GREATEST BRAWL', True, (255, 255, 255))
-    start_button = font1.render('Press space button to start', True, (255, 255, 255))
+    start_button = font1.render('Press "space" button to start', True, (255, 255, 255))
+    settings_button = font1.render('Press "s" button for settings', True, (255, 255, 255))
+    citata_button = font1.render('Press "c" button for citata', True, (255, 255, 255))
     screen.blit(title, (win_width / 2 - title.get_width() / 2, win_height / 2 - title.get_height() / 2))
     screen.blit(start_button,
-                (win_width / 2 - start_button.get_width() / 2, win_height / 2 + start_button.get_height() / 2))
+                (win_width / 2 - start_button.get_width() / 2, win_height / 2 + start_button.get_height() / 1.7))
+    screen.blit(settings_button,
+                (win_width / 2 - start_button.get_width() / 2, win_height / 2 + start_button.get_height() * 1.5))
+    screen.blit(citata_button,
+                (win_width / 2 - start_button.get_width() / 2, win_height / 2 + start_button.get_height() * 2.5))
     pygame.display.update()
 
 
@@ -114,22 +120,24 @@ def draw_settings():
     screen.fill((0, 0, 0))
     font1 = pygame.font.SysFont('arial', 24)
     font2 = pygame.font.SysFont('arial', 36)
-    back_button = font1.render("Back to start screen", True, (255, 255, 255))
-    speed_button = font1.render(f"Choose enemies` speed: {s}", True, (255, 255, 255))
-    speed_increment = font2.render("+", True, (255, 255, 255))
-    frequency_increment = font2.render("+", True, (255, 255, 255))
-    frequency_button = font1.render(f"Choose enemies` frequency: {freq}", True, (255, 255, 255))
+    back_button = font2.render("(backspace)Back to start screen", True, (255, 0, 0))
+    speed_button = font1.render(f"(k)Choose enemies` speed: {s}", True, (255, 255, 255))
+    frequency_button = font1.render(f"(f)Choose enemies` frequency: {freq}", True, (255, 255, 255))
+    goal_button = font1.render(f"(g)Choose goal: {goal}", True, (255, 255, 255))
+    live_button = font1.render(f"(h)Choose lives: {max_lives}", True, (255, 255, 255))
+    lost_button = font1.render(f"(l)Choose misses: {max_lost}", True, (255, 255, 255))
     screen.blit(speed_button,
                 (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height() / 2))
     screen.blit(frequency_button,
-                (win_width / 2 - frequency_button.get_width() / 2, win_height / 2 + frequency_button.get_height() / 2))
-    screen.blit(speed_increment,
-                (win_width / 2 - speed_increment.get_width() / 2 + 155,
-                 win_height / 2 - speed_increment.get_height() / 2))
-    screen.blit(frequency_increment,
-                (win_width / 2 - frequency_increment.get_width() / 2 + 175,
-                 win_height / 2 + frequency_increment.get_height() / 2 - 12))
-    screen.blit(back_button, (250, 290))
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 + frequency_button.get_height() / 2))
+    screen.blit(goal_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - 3 * speed_button.get_height() / 2))
+    screen.blit(live_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - 5 * speed_button.get_height() / 2))
+    screen.blit(lost_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - 7 * speed_button.get_height() / 2))
+    screen.blit(back_button,
+                (win_width / 2 - speed_button.get_width() / 1.5, win_height / 2 - 15 * speed_button.get_height() / 2))
     pygame.display.update()
 
 
@@ -140,7 +148,7 @@ def speeds():
     font1 = pygame.font.SysFont('arial', 24)
     font2 = pygame.font.SysFont('arial', 36)
     s = ''.join([i for i in text if i.isdigit()])
-    gg = font2.render(f'{s}', 1, (0, 150, 0))
+    gg = font2.render(f'{s}', 1, (150, 150, 0))
     speed_button = font1.render(f"Choose enemies` speed: type int.", True, (255, 255, 255))
     screen.blit(speed_button,
                 (win_width / 2 - speed_button.get_width() / 2, win_height / 4 - speed_button.get_height()))
@@ -165,11 +173,59 @@ def freee():
     pygame.display.update()
 
 
+def scorere():
+    global goal
+    global te
+    screen.fill((0, 0, 0))
+    font1 = pygame.font.SysFont('arial', 24)
+    font2 = pygame.font.SysFont('arial', 36)
+    goal = ''.join([i for i in te if i.isdigit()])
+    gg = font2.render(f'{goal}', 1, (0, 150, 0))
+    speed_button = font1.render(f"Choose goal: type int.", True, (255, 255, 255))
+    screen.blit(speed_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 4 - speed_button.get_height()))
+    screen.blit(gg,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height()))
+    pygame.display.update()
+
+
+def losese():
+    global max_lost
+    global t
+    screen.fill((0, 0, 0))
+    font1 = pygame.font.SysFont('arial', 24)
+    font2 = pygame.font.SysFont('arial', 36)
+    max_lost = ''.join([i for i in t if i.isdigit()])
+    gg = font2.render(f'{max_lost}', 1, (0, 0, 255))
+    speed_button = font1.render(f"Choose max. misses: type int.", True, (255, 255, 255))
+    screen.blit(speed_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 4 - speed_button.get_height()))
+    screen.blit(gg,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height()))
+    pygame.display.update()
+
+
+def livesese():
+    global max_lives
+    global tx
+    screen.fill((0, 0, 0))
+    font1 = pygame.font.SysFont('arial', 24)
+    font2 = pygame.font.SysFont('arial', 36)
+    max_lives = ''.join([i for i in tx if i.isdigit()])
+    gg = font2.render(f'{max_lives}', 1, (255, 0, 255))
+    speed_button = font1.render(f"Choose lives: type int.", True, (255, 255, 255))
+    screen.blit(speed_button,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 4 - speed_button.get_height()))
+    screen.blit(gg,
+                (win_width / 2 - speed_button.get_width() / 2, win_height / 2 - speed_button.get_height()))
+    pygame.display.update()
+
+
 win_height = 500
 win_width = 700
 window = display.set_mode((win_width, win_height))
 screen = display.set_mode((win_width, win_height))
-display.set_caption("Шутер")
+display.set_caption("GALAXY WARS")
 background = transform.scale(image.load("space.png"), (700, 500))
 game = False
 
@@ -181,7 +237,10 @@ win = font1.render("You win!", True, (255, 255, 255))
 lose = font1.render("You lose!", True, (180, 0, 0))
 s = 5
 freq = 5
-
+goal = 10
+max_lost = 10
+max_lives = 10
+max_goal = 10
 speed = 6
 clock = pygame.time.Clock()
 FPS = 600
@@ -190,6 +249,9 @@ img_bullet = "laser2.png"
 
 text = ''
 txt = ''
+tx = ''
+te = ''
+t = ''
 
 finish = False
 start_game = True
@@ -223,12 +285,12 @@ while start_game:
                     bulletz = sprite.Group()
                     monsters = sprite.Group()
                     asteroids = sprite.Group()
+                    bullet_flag = False
                     num_bullets = 5
                     lost = 0
                     score = 0
-                    goal = 10
                     max_lost = 10
-                    life = 6
+                    life = int(max_lives)
                     text_life = font1.render(f'HP {str(life)}', 1, (0, 150, 0))
                     text_babylya = font1.render("Счёт:" + str(score), 1, (255, 255, 255))
                     text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
@@ -263,6 +325,48 @@ while start_game:
                     game_state = "speed_screen"
                 if e.key == pygame.K_f:
                     game_state = "freq_screen"
+                if e.key == pygame.K_g:
+                    game_state = "score_screen"
+                if e.key == pygame.K_l:
+                    game_state = "lose_screen"
+                if e.key == pygame.K_h:
+                    game_state = "live_screen"
+        if game_state == "live_screen":
+            if e.type == pygame.QUIT:
+                start_game = False
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RETURN:
+                    game_state = "settings"
+                if e.key == pygame.K_BACKSPACE:
+                    tx = tx[:-1]
+                    livesese()
+            if e.type == pygame.TEXTINPUT:
+                tx += e.text
+                livesese()
+        if game_state == "lose_screen":
+            if e.type == pygame.QUIT:
+                start_game = False
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RETURN:
+                    game_state = "settings"
+                if e.key == pygame.K_BACKSPACE:
+                    t = t[:-1]
+                    losese()
+            if e.type == pygame.TEXTINPUT:
+                t += e.text
+                losese()
+        if game_state == "score_screen":
+            if e.type == pygame.QUIT:
+                start_game = False
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RETURN:
+                    game_state = "settings"
+                if e.key == pygame.K_BACKSPACE:
+                    te = te[:-1]
+                    scorere()
+            if e.type == pygame.TEXTINPUT:
+                te += e.text
+                scorere()
         if game_state == "speed_screen":
             if e.type == pygame.QUIT:
                 start_game = False
@@ -275,7 +379,6 @@ while start_game:
             if e.type == pygame.TEXTINPUT:
                 text += e.text
                 speeds()
-                print(text)
         if game_state == "freq_screen":
             if e.type == pygame.QUIT:
                 start_game = False
@@ -288,7 +391,6 @@ while start_game:
             if e.type == pygame.TEXTINPUT:
                 txt += e.text
                 freee()
-                print(text)
         if game_state == 'win':
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_c:
@@ -372,7 +474,7 @@ while start_game:
 
                     window.blit(text_lose, (10, 50))
                     window.blit(text_babylya, (10, 20))
-                    window.blit(text_life, (600, 10))
+                    window.blit(text_life, (600 - (len(str(life)) - 1) * 15, 10))
 
                     if life == 0 or lost >= max_lost:
                         text_lose = font1.render("Пропустил:" + str(lost), 1, (255, 255, 255))
@@ -383,7 +485,7 @@ while start_game:
                         game = False
                         finish = True
 
-                    if score >= goal:
+                    if score >= int(goal):
                         window.blit(win, (200, 200))
                         victory()
                         start_game = True
